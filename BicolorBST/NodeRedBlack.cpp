@@ -14,7 +14,7 @@ void NodeRedBlack::color(NRB::Color &color)
 	privColor = color;
 }
 
-NRB::Color NodeRedBlack::color()
+NRB::Color NodeRedBlack::color() const
 {
 	return privColor;
 }

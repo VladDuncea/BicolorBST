@@ -8,7 +8,7 @@ Node::Node(int data, Node * father, Node * left, Node * right)
 	this->privRight = right;
 }
 
-int Node::data()
+int Node::data() const
 {
 	return privData;
 }
@@ -18,7 +18,7 @@ void Node::data(int newData)
 	privData = newData;
 }
 
-Node * Node::father()
+Node * Node::father() const
 {
 	return privFather;
 }
@@ -28,7 +28,7 @@ void Node::father(Node * newFather)
 	privFather = newFather;
 }
 
-Node * Node::left()
+Node * Node::left() const
 {
 	return privLeft;
 }
@@ -38,7 +38,7 @@ void Node::left(Node * newLeft)
 	privLeft = newLeft;
 }
 
-Node * Node::right()
+Node * Node::right() const
 {
 	return privRight;
 }

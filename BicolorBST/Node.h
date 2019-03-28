@@ -6,22 +6,29 @@ class Node
 	Node *privFather, *privLeft, *privRight;
 
 	//Nodes cant be copied
-	Node(Node &n) {};
+	Node(const Node &n) {};
 public:
 	Node(int data,Node *father=NULL,Node *left=NULL,Node *right=NULL);
 	~Node() {};
 
-	//Setter and getter for info variable
-	int data();
+	//Getter for data variable
+	int data() const;
+	//Setter for data variable
 	void data(int newData);
-	//Setter and getter for father variable
-	Node* father();
+
+	//Getter for father variable
+	Node* father() const;
+	//Setter for father variable
 	void father(Node *newFather);
-	//Setter and getter for left variable
-	Node* left();
+
+	//Getter for left variable
+	Node* left() const;
+	//Setter for left variable
 	void left(Node *newLeft);
-	//Setter and getter for right variable
-	Node* right();
+
+	//Getter for right variable
+	Node* right() const;
+	//Setter for right variable
 	void right(Node *newRight);
 };
 
