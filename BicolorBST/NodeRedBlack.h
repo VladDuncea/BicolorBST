@@ -10,7 +10,7 @@ namespace NRB
 	};
 }
 
-class NodeRedBlack :private Node
+class NodeRedBlack :public Node
 {
 	//Hide copy constructor
 	NodeRedBlack(NodeRedBlack &n) :Node(0) {};
@@ -26,7 +26,5 @@ public:
 	//Setter and getter functions for the node color
 	void color(NRB::Color &color);
 	NRB::Color color() const;
-
-
 };
 

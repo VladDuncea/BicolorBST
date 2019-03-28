@@ -123,6 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BicolorBST.cpp" />
     <ClCompile Include="BST.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
@@ -130,6 +131,7 @@
     <ClCompile Include="Tree.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BicolorBST.h" />
     <ClInclude Include="BST.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="NodeRedBlack.h" />

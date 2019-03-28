@@ -48,6 +48,16 @@ void BST::priv_insert(Node * father, int data)
 	
 }
 
+void BST::privEmpty(Node * n)
+{
+	if (n == NULL)
+		return;
+	privEmpty(n->left());
+	privEmpty(n->right());
+	delete n;
+
+}
+
 BST::BST()
 {
 	privRoot = NULL;
@@ -65,6 +75,8 @@ BST::BST(Node * root)
 
 BST::~BST()
 {
+	//Dealocate all the nodes
+	privEmpty(privRoot);
 }
 
 void BST::inorder() const

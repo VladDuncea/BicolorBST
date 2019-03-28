@@ -2,11 +2,12 @@
 #include <iostream>
 class Node
 {
+	//Nodes cant be copied
+	Node(const Node &n) {};
+protected:
 	int privData;
 	Node *privFather, *privLeft, *privRight;
 
-	//Nodes cant be copied
-	Node(const Node &n) {};
 public:
 	Node(int data,Node *father=NULL,Node *left=NULL,Node *right=NULL);
 	~Node() {};

@@ -1,25 +1,21 @@
 #pragma once
+#include "NodeRedBlack.h"
 #include "Tree.h"
-#include "Node.h"
 
-class BST :private Tree
+class BicolorBST: private Tree
 {
-	Node * privRoot;
-
+	NodeRedBlack *privRoot;
 	void priv_printSRD(const Node *n, std::ostream &os) const;
-	void priv_insert(Node *n, int data);
 	void privEmpty(Node *n);
 
 public:
-	BST();
-	BST(Node *root);
-	~BST();
+	BicolorBST();
+	BicolorBST(NodeRedBlack *root);
+	~BicolorBST();
 
-	//Tree functions
 	void inorder() const;
 	void insert(int data);
 	void removeNode(int) {};
 	int nrNodes();
-
 };
 
