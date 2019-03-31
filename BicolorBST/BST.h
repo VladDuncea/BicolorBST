@@ -2,7 +2,7 @@
 #include "Tree.h"
 #include "Node.h"
 
-class BST :private Tree
+class BST :public Tree
 {
 	Node * privRoot;
 
@@ -19,7 +19,6 @@ public:
 	void inorder() const;
 	void insert(int data);
 	void removeNode(int) {};
-	int nrNodes();
 
 };
 

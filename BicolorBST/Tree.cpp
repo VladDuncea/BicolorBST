@@ -9,3 +9,8 @@ Tree::Tree()
 Tree::~Tree()
 {
 }
+
+int Tree::nrNodes()
+{
+	return privNrNodes;
+}

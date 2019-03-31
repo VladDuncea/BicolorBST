@@ -100,8 +100,3 @@ void BST::insert(int data)
 	//Add 1 to the nr of nodes
 	privNrNodes++;
 }
-
-int BST::nrNodes()
-{
-	return privNrNodes;
-}

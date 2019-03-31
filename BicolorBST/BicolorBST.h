@@ -2,10 +2,12 @@
 #include "NodeRedBlack.h"
 #include "Tree.h"
 
-class BicolorBST: private Tree
+class BicolorBST: public Tree
 {
 	NodeRedBlack *privRoot;
-	void priv_printSRD(const Node *n, std::ostream &os) const;
+	void priv_printSRD(const NodeRedBlack *n, std::ostream &os) const;
+	void privInsert(NodeRedBlack *n, int data);
+	void privCheckRules(NodeRedBlack *n);
 	void privEmpty(Node *n);
 
 public:
@@ -13,9 +15,9 @@ public:
 	BicolorBST(NodeRedBlack *root);
 	~BicolorBST();
 
+	//Tree functions
 	void inorder() const;
 	void insert(int data);
 	void removeNode(int) {};
-	int nrNodes();
 };
 
