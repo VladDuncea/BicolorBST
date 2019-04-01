@@ -8,6 +8,7 @@ class BicolorBST: public Tree
 	void priv_printSRD(const NodeRedBlack *n, std::ostream &os) const;
 	void privInsert(NodeRedBlack *n, int data);
 	void privCheckRules(NodeRedBlack *n);
+	void privCaseOne(NodeRedBlack *base, NodeRedBlack *left, NodeRedBlack *right);
 	void privEmpty(Node *n);
 
 public:

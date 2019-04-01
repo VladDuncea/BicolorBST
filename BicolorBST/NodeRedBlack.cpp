@@ -9,7 +9,7 @@ NodeRedBlack::~NodeRedBlack()
 {
 }
 
-void NodeRedBlack::color(NRB::Color &color)
+void NodeRedBlack::color(const NRB::Color &color)
 {
 	privColor = color;
 }

@@ -25,6 +25,7 @@ void BicolorBST::privInsert(NodeRedBlack * n, int data)
 			}
 			//Check if new node is corectly placed and colored
 			privCheckRules((NodeRedBlack *) n->left());
+			inorder();
 		}
 		else
 		{
@@ -45,6 +46,7 @@ void BicolorBST::privInsert(NodeRedBlack * n, int data)
 			}
 			//Check if new node is corectly placed and colored
 			privCheckRules((NodeRedBlack *) n->right());
+			inorder();
 		}
 		else
 		{
@@ -56,7 +58,50 @@ void BicolorBST::privInsert(NodeRedBlack * n, int data)
 
 void BicolorBST::privCheckRules(NodeRedBlack * n)
 {
+	//This is the root node, there is nothing to be done
+	if (n->father() == NULL)
+		return;
 
+	//The node is well placed
+	if (((NodeRedBlack *)n->father())->color() == NRB::black)
+		return;
+	//Get base the father of the father of n
+	NodeRedBlack * base = (NodeRedBlack *)n->father()->father();
+
+	//The tree is only 2 levels high
+	if (base == NULL)
+	{
+		privRoot->color(NRB::black);
+		std::cout << "Nodul:" << privRoot->data() << " caz radacina\n";
+		return;
+	}
+
+	//Get left and right of base for convenience
+	NodeRedBlack * left = (NodeRedBlack *)base->left();
+	NodeRedBlack * right = (NodeRedBlack *)base->right();
+
+	//Check for case 1 (both children of 'base' are red and they exist)
+	if (left != NULL && right != NULL && left->color() == NRB::red && right->color() == NRB::red)
+	{
+		privCaseOne(base, left, right);
+	}
+	//Case two (the node is on the exterior- right side)
+	else if (base->left() == n->father() && left->left() == n)
+	{
+		//Call case two
+	}
+	//TO DO...
+
+	//Recursively arrange the tree
+	privCheckRules(base);
+}
+
+void BicolorBST::privCaseOne(NodeRedBlack * base, NodeRedBlack * left, NodeRedBlack * right)
+{
+	base->color(NRB::red);
+	left->color(NRB::black);
+	right->color(NRB::black);
+	std::cout << "Nodul:" << base->data() << " caz 1\n";
 }
 
 void BicolorBST::privEmpty(Node* n)
@@ -81,12 +126,14 @@ BicolorBST::BicolorBST(NodeRedBlack * root)
 
 BicolorBST::~BicolorBST()
 {
+	privEmpty(privRoot);
 }
 
 void BicolorBST::inorder() const
 {
 	if (privRoot)
 		priv_printSRD(privRoot, std::cout);
+	std::cout << std::endl;
 }
 
 void BicolorBST::insert(int data)

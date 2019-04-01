@@ -24,7 +24,7 @@ public:
 	~NodeRedBlack();
 
 	//Setter and getter functions for the node color
-	void color(NRB::Color &color);
+	void color(const NRB::Color &color);
 	NRB::Color color() const;
 };
 
