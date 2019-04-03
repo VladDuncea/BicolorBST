@@ -204,12 +204,12 @@ NodeRedBlack* BicolorBST::privCaseThree(NodeRedBlack * base, NodeRedBlack * left
 	}
 }
 
-void BicolorBST::privEmpty(Node* n)
+void BicolorBST::privEmpty(NodeRedBlack* n)
 {
 	if (n == NULL)
 		return;
-	privEmpty(n->left());
-	privEmpty(n->right());
+	privEmpty((NodeRedBlack*)n->left());
+	privEmpty((NodeRedBlack*)n->right());
 	delete n;
 	
 }

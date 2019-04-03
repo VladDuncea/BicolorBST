@@ -10,7 +10,7 @@ class BicolorBST: public Tree
 	void privCaseOne(NodeRedBlack *base, NodeRedBlack *left, NodeRedBlack *right);
 	NodeRedBlack * privCaseTwo(NodeRedBlack *base, NodeRedBlack *left, NodeRedBlack *right,bool reversed);
 	NodeRedBlack * privCaseThree(NodeRedBlack *base, NodeRedBlack *left, NodeRedBlack *right,bool reversed);
-	void privEmpty(Node *n);
+	void privEmpty(NodeRedBlack *n);
 protected:
 	void protecPrintSRD(Node *n, std::ostream& os) const;
 public:
