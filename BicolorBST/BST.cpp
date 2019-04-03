@@ -1,14 +1,5 @@
 #include "BST.h"
 
-void BST::priv_printSRD(const Node * n, std::ostream & os) const
-{
-	if (n == NULL)
-		return;
-	priv_printSRD(n->left(), os);
-	os << n->data() << " ";
-	priv_printSRD(n->right(), os);
-}
-
 void BST::priv_insert(Node * father, int data)
 {
 	//The node belongs to the left
@@ -82,7 +73,7 @@ BST::~BST()
 void BST::inorder() const
 {
 	if(privRoot)
-		priv_printSRD(privRoot, std::cout);
+		protecPrintSRD(privRoot, std::cout);
 }
 
 void BST::insert(int data)

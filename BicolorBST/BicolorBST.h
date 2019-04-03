@@ -5,13 +5,14 @@
 class BicolorBST: public Tree
 {
 	NodeRedBlack *privRoot;
-	void priv_printSRD(const NodeRedBlack *n, std::ostream &os) const;
 	void privInsert(NodeRedBlack *n, int data);
 	void privCheckRules(NodeRedBlack *n);
 	void privCaseOne(NodeRedBlack *base, NodeRedBlack *left, NodeRedBlack *right);
-	void privCaseTwo(NodeRedBlack *base, NodeRedBlack *left, NodeRedBlack *right,bool reversed);
+	NodeRedBlack * privCaseTwo(NodeRedBlack *base, NodeRedBlack *left, NodeRedBlack *right,bool reversed);
+	NodeRedBlack * privCaseThree(NodeRedBlack *base, NodeRedBlack *left, NodeRedBlack *right,bool reversed);
 	void privEmpty(Node *n);
-
+protected:
+	void protecPrintSRD(Node *n, std::ostream& os) const;
 public:
 	BicolorBST();
 	BicolorBST(NodeRedBlack *root);

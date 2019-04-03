@@ -1,14 +1,5 @@
 #include "BicolorBST.h"
 
-void BicolorBST::priv_printSRD(const NodeRedBlack * n, std::ostream & os) const
-{
-	if (n == NULL)
-		return;
-	priv_printSRD((NodeRedBlack *) n->left(), os);
-	os << n->data() << (n->color() == NRB::black ? " black" : " red") << " ";
-	priv_printSRD((NodeRedBlack *) n->right(), os);
-}
-
 void BicolorBST::privInsert(NodeRedBlack * n, int data)
 {
 	//Node is to the left
@@ -58,14 +49,16 @@ void BicolorBST::privInsert(NodeRedBlack * n, int data)
 
 void BicolorBST::privCheckRules(NodeRedBlack * n)
 {
-	//This is the root node, there is nothing to be done
-	if (n->father() == NULL)
+	//This is the root node or it's already black, there is nothing to be done
+	//This check is done to end the recursion
+	if (n->father() == NULL || n->color()==NRB::black)
 		return;
 
 	//The node is well placed
 	if (((NodeRedBlack *)n->father())->color() == NRB::black)
 		return;
-	//Get base the father of the father of n
+
+	//Get base = the father of the father of n
 	NodeRedBlack * base = (NodeRedBlack *)n->father()->father();
 
 	//The tree is only 2 levels high
@@ -84,27 +77,46 @@ void BicolorBST::privCheckRules(NodeRedBlack * n)
 	NodeRedBlack * right = (NodeRedBlack *)base->right();
 	if (left == NULL)
 		left = &placeholder;
-	else if (right == NULL)
+	if (right == NULL)
 		right = &placeholder;
 
 	//Check for case 1 (both children of 'base' are red)
 	if (left->color() == NRB::red && right->color() == NRB::red)
 	{
 		privCaseOne(base, left, right);
+		std::cout << "Nodul:" << base->data() << " caz 1\n";
 	}
 	//Case two (the node is on the exterior - left side)
 	else if (base->left() == n->father() && left->left() == n)
 	{
-		privCaseTwo(base, left, right, false);
+		base = privCaseTwo(base, left, right, false);
+		std::cout << "Nodul:" << base->data() << " caz 2\n";
 	}
 	//Case two (the node is on the exterior - right side)
 	else if (base->right() == n->father() && right->right() == n)
 	{
-		privCaseTwo(base, left, right, true);
+		base = privCaseTwo(base, left, right, true);
+		std::cout << "Nodul:" << base->data() << " caz 2'\n";
 	}
-	//TO DO...
+	//Case three(the node is on the interior - left side
+	else if (base->left() == n->father() && left->right() == n)
+	{
+		base = privCaseThree(base, left, right, false);
+		std::cout << "Nodul:" << base->data() << " caz 3\n";
 
-	//Recursively arrange the tree
+	}//Case three(the node is on the interior - left side
+	else if (base->right() == n->father() && right->left() == n)
+	{
+		base = privCaseThree(base, left, right, true);
+		std::cout << "Nodul:" << base->data() << " caz 3'\n";
+	}
+	else
+	{
+		std::cerr << "\n Unexpected point reached\n";
+		exit(-1);
+	}
+	
+	//Recursively check the tree
 	privCheckRules(base);
 }
 
@@ -113,10 +125,9 @@ void BicolorBST::privCaseOne(NodeRedBlack * base, NodeRedBlack * left, NodeRedBl
 	base->color(NRB::red);
 	left->color(NRB::black);
 	right->color(NRB::black);
-	std::cout << "Nodul:" << base->data() << " caz 1\n";
 }
 
-void BicolorBST::privCaseTwo(NodeRedBlack * base, NodeRedBlack * left, NodeRedBlack * right,bool reversed)
+NodeRedBlack* BicolorBST::privCaseTwo(NodeRedBlack * base, NodeRedBlack * left, NodeRedBlack * right,bool reversed)
 {
 	NodeRedBlack * father = reversed ? right : left;
 
@@ -126,6 +137,7 @@ void BicolorBST::privCaseTwo(NodeRedBlack * base, NodeRedBlack * left, NodeRedBl
 	base->color(NRB::red);
 
 	//Rotate the subtree to the right / left
+		//Add the new links
 	if (!reversed)
 		father->right(base);
 	else
@@ -133,21 +145,63 @@ void BicolorBST::privCaseTwo(NodeRedBlack * base, NodeRedBlack * left, NodeRedBl
 
 	father->father(base->father());
 	base->father(father);
+		//Eliminate old links
+	if (!reversed)
+		base->left(NULL);
+	else
+		base->right(NULL);
 
 	//Connect the subtree back to the tree
-
 		//Check if the base was the root
 	if (base == privRoot)
 	{
 		father->father(NULL);
 		privRoot = father;
-		return;
+		return father;
 	}
 		//Base is not tree's root
 	if (father->father()->left() == base)
 		father->father()->left(father);
 	else
 		father->father()->right(father);
+	return father;
+}
+
+NodeRedBlack* BicolorBST::privCaseThree(NodeRedBlack * base, NodeRedBlack * left, NodeRedBlack * right, bool reversed)
+{
+	NodeRedBlack * n;
+	//Rotate the small left subtree for not reversed
+	if (!reversed)
+	{
+		n = (NodeRedBlack*)left->right();
+		//Link base to n
+		base->left(n);
+		//Link the initial left to n
+		n->left(left);
+		//Remove the old left link
+		left->right(NULL);
+		//Set fathers
+		n->father(base);
+		left->father(n);
+		//Call case 2 for the changed subtree
+		return privCaseTwo(base, (NodeRedBlack*)base->left(), right, false);
+	}
+	//Rotate the small right subtree for reversed
+	else
+	{
+		n = (NodeRedBlack*)right->left();
+		//Link base to n
+		base->right(n);
+		//Link the initial right to n
+		n->right(right);
+		//Remove the old right link
+		right->left(NULL);
+		//Set fathers
+		n->father(base);
+		right->father(n);
+		//Call case 2 for the changed subtree
+		return privCaseTwo(base,left, (NodeRedBlack*)base->right(), true);
+	}
 }
 
 void BicolorBST::privEmpty(Node* n)
@@ -158,6 +212,15 @@ void BicolorBST::privEmpty(Node* n)
 	privEmpty(n->right());
 	delete n;
 	
+}
+
+void BicolorBST::protecPrintSRD(Node * n, std::ostream & os) const
+{
+	if (n == NULL)
+		return;
+	protecPrintSRD(n->left(), os);
+	os << (NodeRedBlack*) n;
+	protecPrintSRD(n->right(), os);
 }
 
 BicolorBST::BicolorBST()
@@ -178,7 +241,7 @@ BicolorBST::~BicolorBST()
 void BicolorBST::inorder() const
 {
 	if (privRoot)
-		priv_printSRD(privRoot, std::cout);
+		protecPrintSRD(privRoot, std::cout);
 	std::cout << std::endl;
 }
 

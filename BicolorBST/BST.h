@@ -6,7 +6,6 @@ class BST :public Tree
 {
 	Node * privRoot;
 
-	void priv_printSRD(const Node *n, std::ostream &os) const;
 	void priv_insert(Node *n, int data);
 	void privEmpty(Node *n);
 

@@ -10,7 +10,7 @@ protected:
 
 public:
 	Node(int data,Node *father=NULL,Node *left=NULL,Node *right=NULL);
-	~Node() {};
+	~Node();
 
 	//Getter for data variable
 	int data() const;
@@ -31,5 +31,8 @@ public:
 	Node* right() const;
 	//Setter for right variable
 	void right(Node *newRight);
+
+	friend std::ostream& operator<<(std::ostream &os,const Node *n);
 };
 
+std::ostream& operator<<(std::ostream &os,const Node *n);

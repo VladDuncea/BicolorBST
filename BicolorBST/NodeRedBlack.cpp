@@ -18,3 +18,9 @@ NRB::Color NodeRedBlack::color() const
 {
 	return privColor;
 }
+
+std::ostream & operator<<(std::ostream & os, const NodeRedBlack * n)
+{
+	os << n->data() << "-" << (n->color() == NRB::black ? "black" : "red") << " ";
+	return os;
+}

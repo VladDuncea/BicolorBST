@@ -8,6 +8,10 @@ Node::Node(int data, Node * father, Node * left, Node * right)
 	this->privRight = right;
 }
 
+Node::~Node()
+{
+}
+
 int Node::data() const
 {
 	return privData;
@@ -46,4 +50,10 @@ Node * Node::right() const
 void Node::right(Node * newRight)
 {
 	privRight = newRight;
+}
+
+std::ostream& operator<<(std::ostream &os, const Node *n)
+{
+	os << n->data() << " ";
+	return os;
 }

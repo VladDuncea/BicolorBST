@@ -26,5 +26,9 @@ public:
 	//Setter and getter functions for the node color
 	void color(const NRB::Color &color);
 	NRB::Color color() const;
+
+	//Operators
+	friend std::ostream& operator<<(std::ostream &os,const Node *n);
 };
 
+std::ostream& operator<<(std::ostream &os,const Node * n);
