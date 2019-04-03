@@ -9,6 +9,7 @@ class BicolorBST: public Tree
 	void privInsert(NodeRedBlack *n, int data);
 	void privCheckRules(NodeRedBlack *n);
 	void privCaseOne(NodeRedBlack *base, NodeRedBlack *left, NodeRedBlack *right);
+	void privCaseTwo(NodeRedBlack *base, NodeRedBlack *left, NodeRedBlack *right,bool reversed);
 	void privEmpty(Node *n);
 
 public:

@@ -76,19 +76,31 @@ void BicolorBST::privCheckRules(NodeRedBlack * n)
 		return;
 	}
 
+	//Create placeholder in case of null left/right
+	NodeRedBlack placeholder(NRB::black, -1);
+
 	//Get left and right of base for convenience
 	NodeRedBlack * left = (NodeRedBlack *)base->left();
 	NodeRedBlack * right = (NodeRedBlack *)base->right();
+	if (left == NULL)
+		left = &placeholder;
+	else if (right == NULL)
+		right = &placeholder;
 
-	//Check for case 1 (both children of 'base' are red and they exist)
-	if (left != NULL && right != NULL && left->color() == NRB::red && right->color() == NRB::red)
+	//Check for case 1 (both children of 'base' are red)
+	if (left->color() == NRB::red && right->color() == NRB::red)
 	{
 		privCaseOne(base, left, right);
 	}
-	//Case two (the node is on the exterior- right side)
+	//Case two (the node is on the exterior - left side)
 	else if (base->left() == n->father() && left->left() == n)
 	{
-		//Call case two
+		privCaseTwo(base, left, right, false);
+	}
+	//Case two (the node is on the exterior - right side)
+	else if (base->right() == n->father() && right->right() == n)
+	{
+		privCaseTwo(base, left, right, true);
 	}
 	//TO DO...
 
@@ -102,6 +114,40 @@ void BicolorBST::privCaseOne(NodeRedBlack * base, NodeRedBlack * left, NodeRedBl
 	left->color(NRB::black);
 	right->color(NRB::black);
 	std::cout << "Nodul:" << base->data() << " caz 1\n";
+}
+
+void BicolorBST::privCaseTwo(NodeRedBlack * base, NodeRedBlack * left, NodeRedBlack * right,bool reversed)
+{
+	NodeRedBlack * father = reversed ? right : left;
+
+	//Color the father of the node in black
+	father->color(NRB::black);
+	//Color the base in red
+	base->color(NRB::red);
+
+	//Rotate the subtree to the right / left
+	if (!reversed)
+		father->right(base);
+	else
+		father->left(base);
+
+	father->father(base->father());
+	base->father(father);
+
+	//Connect the subtree back to the tree
+
+		//Check if the base was the root
+	if (base == privRoot)
+	{
+		father->father(NULL);
+		privRoot = father;
+		return;
+	}
+		//Base is not tree's root
+	if (father->father()->left() == base)
+		father->father()->left(father);
+	else
+		father->father()->right(father);
 }
 
 void BicolorBST::privEmpty(Node* n)
