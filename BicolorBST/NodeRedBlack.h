@@ -12,15 +12,13 @@ namespace NRB
 
 class NodeRedBlack :public Node
 {
-	//Hide copy constructor
-	NodeRedBlack(NodeRedBlack &n) :Node(0) {};
-	
 	//The color of the node
 	NRB::Color privColor;
 
 public:
 	
 	NodeRedBlack(NRB::Color color,int data,Node *root = NULL,Node *left=NULL,Node *right=NULL);
+	NodeRedBlack(const NodeRedBlack &n);
 	~NodeRedBlack();
 
 	//Setter and getter functions for the node color
@@ -28,7 +26,7 @@ public:
 	NRB::Color color() const;
 
 	//Operators
-	friend std::ostream& operator<<(std::ostream &os,const Node *n);
+	NodeRedBlack& operator=(const NodeRedBlack& n);
 };
 
-std::ostream& operator<<(std::ostream &os,const Node * n);
+std::ostream& operator<<(std::ostream &os,const NodeRedBlack &n);

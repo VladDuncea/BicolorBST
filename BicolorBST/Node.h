@@ -2,14 +2,13 @@
 #include <iostream>
 class Node
 {
-	//Nodes cant be copied
-	Node(const Node &n) {};
 protected:
 	int privData;
 	Node *privFather, *privLeft, *privRight;
 
 public:
 	Node(int data,Node *father=NULL,Node *left=NULL,Node *right=NULL);
+	Node(const Node & n);
 	~Node();
 
 	//Getter for data variable
@@ -32,7 +31,7 @@ public:
 	//Setter for right variable
 	void right(Node *newRight);
 
-	friend std::ostream& operator<<(std::ostream &os,const Node *n);
+	Node&  operator=(const Node &n);
 };
 
-std::ostream& operator<<(std::ostream &os,const Node *n);
+std::ostream& operator<<(std::ostream &os,const Node &n);

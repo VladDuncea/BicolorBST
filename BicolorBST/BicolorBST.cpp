@@ -219,7 +219,7 @@ void BicolorBST::protecPrintSRD(Node * n, std::ostream & os) const
 	if (n == NULL)
 		return;
 	protecPrintSRD(n->left(), os);
-	os << (NodeRedBlack*) n;
+	os << *((NodeRedBlack*) n);
 	protecPrintSRD(n->right(), os);
 }
 
@@ -243,6 +243,16 @@ void BicolorBST::inorder() const
 	if (privRoot)
 		protecPrintSRD(privRoot, std::cout);
 	std::cout << std::endl;
+}
+
+void BicolorBST::test()
+{
+	NodeRedBlack n = *((NodeRedBlack*) privRoot->left());
+	std::cout << n << std::endl;
+	Node a = *privRoot;
+	std::cout << a << std::endl;
+	a = n;
+	std::cout << a << std::endl;
 }
 
 void BicolorBST::insert(int data)

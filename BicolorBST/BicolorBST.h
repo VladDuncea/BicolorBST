@@ -20,6 +20,7 @@ public:
 
 	//Tree functions
 	void inorder() const;
+	void test();
 	void insert(int data);
 	void removeNode(int) {};
 };

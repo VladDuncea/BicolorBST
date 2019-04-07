@@ -14,6 +14,7 @@ int main()
 	bst.insert(6);
 	bst.insert(8);
 
+	bst.test();
 	//bst.inorder();
 
 	//std::cout << bst.nrNodes();
