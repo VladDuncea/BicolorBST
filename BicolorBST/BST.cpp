@@ -58,6 +58,71 @@ int BST::privDepth(Node * n, int depth)
 	return ld > rd ? ld : rd;
 }
 
+void BST::privRemoveNode(Node * n, int x)
+{
+	//The node with value x is not in the BST
+	if (n == NULL)
+		return;
+
+	//Found the node
+	if (n->data() == x)
+	{
+		//The node has at most one child
+		if (n->left() == NULL || n->right() == NULL)
+		{
+			//The node has no children
+			if (n->left() == NULL && n->right() == NULL)
+			{
+				//The node is the last one in the BST
+				if (n == privRoot)
+				{
+					privRoot = NULL;
+					delete n;
+					return;
+				}
+				//Break the node from its father
+				if (n->father()->data() < n->data())
+					n->father()->right(NULL);
+				else
+					n->father()->left(NULL);
+				//Free the memory
+				delete n;
+				return;
+			}
+
+			//The node has one child
+			Node *child = (n->left() == NULL) ? n->right() : n->left();
+			//Link the father of the node to the child
+			if (n->data() < n->father()->data())
+				n->father()->left(child);
+			else
+				n->father()->right(child );
+			//Link the child to the new father
+			child->father(n->father());
+			//Free memory
+			delete n;
+			return;
+		}
+
+		//The node has both children
+		//Find the minimal node greather than this
+		Node *aux = n->right();
+		while (aux->left() != NULL)
+			aux = aux->left();
+		//Set the found node in place of the removed one
+		n->data(aux->data());
+		//Remove the found node
+		privRemoveNode(aux, aux->data());
+		return;
+	}
+
+	//Search for the node
+	if (n->data() < x)
+		privRemoveNode(n->right(), x);
+	else
+		privRemoveNode(n->left(), x);
+}
+
 BST::BST()
 {
 	privRoot = NULL;
@@ -73,6 +138,11 @@ BST::BST(Node * root)
 	}
 }
 
+BST::BST(BST & bst):Tree(bst)
+{
+
+}
+
 BST::~BST()
 {
 	//Dealocate all the nodes
@@ -86,8 +156,11 @@ int BST::treeDepth()
 
 void BST::inorder() const
 {
-	if(privRoot)
+	if (privRoot)
 		protecPrintSRD(privRoot, std::cout);
+	else
+		std::cout << "Arbore gol!";
+	std::cout << std::endl;
 }
 
 void BST::insert(int data)
@@ -104,4 +177,20 @@ void BST::insert(int data)
 
 	//Add 1 to the nr of nodes
 	privNrNodes++;
+}
+
+void BST::removeNode(int x)
+{
+	privRemoveNode(privRoot, x);
+}
+
+BST & BST::operator=(BST & bst)
+{
+	//If this tree has nodes delete them first
+	if (privRoot != NULL)
+		privEmpty(privRoot);
+	//Copy private variables
+	privNrNodes = bst.privNrNodes;
+	privRoot = bst.privRoot;
+	return *this;
 }

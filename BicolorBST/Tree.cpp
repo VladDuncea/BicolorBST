@@ -14,6 +14,11 @@ Tree::Tree()
 	privNrNodes = 0;
 }
 
+Tree::Tree(Tree & t)
+{
+	privNrNodes = t.privNrNodes;
+}
+
 
 Tree::~Tree()
 {

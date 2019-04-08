@@ -4,11 +4,12 @@ class  Tree
 {
 protected:
 	int privNrNodes;
-	virtual void protecPrintSRD(Node *n, std::ostream& os) const; //Se poate face ceva cu afisarea sa fie virtuala ??
+	virtual void protecPrintSRD(Node *n, std::ostream& os) const; 
 	
 public:
 	Tree();
-	~Tree();
+	Tree(Tree &t);
+	virtual ~Tree() = 0;
 	
 	virtual int nrNodes();
 	virtual int treeDepth() = 0;
@@ -16,4 +17,3 @@ public:
 	virtual void inorder() const = 0;
 	virtual void removeNode(int) = 0;
 };
-
