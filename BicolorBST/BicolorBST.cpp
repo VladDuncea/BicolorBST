@@ -214,6 +214,15 @@ void BicolorBST::privEmpty(NodeRedBlack* n)
 	
 }
 
+int BicolorBST::privDepth(NodeRedBlack * n, int blackNr)
+{
+	if (n == NULL)
+		return blackNr;
+	NodeRedBlack * nrb = (NodeRedBlack*)n;
+	//Count only the black nodes
+	return privDepth((NodeRedBlack*)n->left(), nrb->color() == NRB::black ? blackNr + 1 : blackNr);
+}
+
 void BicolorBST::protecPrintSRD(Node * n, std::ostream & os) const
 {
 	if (n == NULL)
@@ -236,6 +245,11 @@ BicolorBST::BicolorBST(NodeRedBlack * root)
 BicolorBST::~BicolorBST()
 {
 	privEmpty(privRoot);
+}
+
+int BicolorBST::treeDepth()
+{
+	return privDepth(privRoot, 0);
 }
 
 void BicolorBST::inorder() const

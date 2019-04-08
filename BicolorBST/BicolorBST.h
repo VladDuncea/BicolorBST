@@ -11,6 +11,8 @@ class BicolorBST: public Tree
 	NodeRedBlack * privCaseTwo(NodeRedBlack *base, NodeRedBlack *left, NodeRedBlack *right,bool reversed);
 	NodeRedBlack * privCaseThree(NodeRedBlack *base, NodeRedBlack *left, NodeRedBlack *right,bool reversed);
 	void privEmpty(NodeRedBlack *n);
+	int privDepth(NodeRedBlack *n, int blackNr);
+
 protected:
 	void protecPrintSRD(Node *n, std::ostream& os) const;
 public:
@@ -19,6 +21,7 @@ public:
 	~BicolorBST();
 
 	//Tree functions
+	int treeDepth();
 	void inorder() const;
 	void test();
 	void insert(int data);

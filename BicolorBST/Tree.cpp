@@ -23,3 +23,4 @@ int Tree::nrNodes()
 {
 	return privNrNodes;
 }
+

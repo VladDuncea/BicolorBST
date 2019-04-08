@@ -14,7 +14,8 @@ int main()
 	bst.insert(6);
 	bst.insert(8);
 
-	bst.test();
+	std::cout<<bst.treeDepth()<<std::endl;
+	//bst.test();
 	//bst.inorder();
 
 	//std::cout << bst.nrNodes();

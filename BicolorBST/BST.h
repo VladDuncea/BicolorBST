@@ -8,6 +8,7 @@ class BST :public Tree
 
 	void priv_insert(Node *n, int data);
 	void privEmpty(Node *n);
+	int privDepth(Node *n, int depth);
 
 public:
 	BST();
@@ -15,6 +16,7 @@ public:
 	~BST();
 
 	//Tree functions
+	int treeDepth();
 	void inorder() const;
 	void insert(int data);
 	void removeNode(int) {};

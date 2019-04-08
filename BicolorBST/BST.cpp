@@ -49,6 +49,15 @@ void BST::privEmpty(Node * n)
 
 }
 
+int BST::privDepth(Node * n, int depth)
+{
+	if (n == NULL)
+		return depth - 1;
+	int ld = privDepth(n->left(), depth + 1);
+	int rd = privDepth(n->right(), depth + 1);
+	return ld > rd ? ld : rd;
+}
+
 BST::BST()
 {
 	privRoot = NULL;
@@ -68,6 +77,11 @@ BST::~BST()
 {
 	//Dealocate all the nodes
 	privEmpty(privRoot);
+}
+
+int BST::treeDepth()
+{
+	return privDepth(privRoot, 1);
 }
 
 void BST::inorder() const
