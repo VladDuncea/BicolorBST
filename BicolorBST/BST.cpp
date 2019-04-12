@@ -140,7 +140,7 @@ BST::BST(Node * root)
 
 BST::BST(BST & bst):Tree(bst)
 {
-
+	//TODO copy constructor
 }
 
 BST::~BST()
@@ -192,5 +192,6 @@ BST & BST::operator=(BST & bst)
 	//Copy private variables
 	privNrNodes = bst.privNrNodes;
 	privRoot = bst.privRoot;
+	//TODO: Finish operator =
 	return *this;
 }

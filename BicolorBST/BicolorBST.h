@@ -25,6 +25,7 @@ public:
 	void inorder() const;
 	void test();
 	void insert(int data);
+	//TODO: create a remove node function
 	void removeNode(int) {};
 };
 
