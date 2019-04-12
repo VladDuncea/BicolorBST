@@ -66,9 +66,13 @@ Node& Node::operator=(const Node &n)
 	return *this;
 }
 
+void Node::display(std::ostream & os) const
+{
+	os << data() << " ";
+}
+
 std::ostream& operator<<(std::ostream &os, const Node &n)
 {
-	//TODO: add virtual display function
-	os << n.data() << " ";
+	n.display(os);
 	return os;
 }

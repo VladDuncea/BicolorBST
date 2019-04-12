@@ -16,7 +16,7 @@ void BicolorBST::privInsert(NodeRedBlack * n, int data)
 			}
 			//Check if new node is corectly placed and colored
 			privCheckRules((NodeRedBlack *) n->left());
-			inorder();
+			//inorder(); //Step by step logging
 		}
 		else
 		{
@@ -37,7 +37,7 @@ void BicolorBST::privInsert(NodeRedBlack * n, int data)
 			}
 			//Check if new node is corectly placed and colored
 			privCheckRules((NodeRedBlack *) n->right());
-			inorder();
+			//inorder(); //Step by step logging
 		}
 		else
 		{
@@ -65,7 +65,7 @@ void BicolorBST::privCheckRules(NodeRedBlack * n)
 	if (base == NULL)
 	{
 		privRoot->color(NRB::black);
-		std::cout << "Nodul:" << privRoot->data() << " caz radacina\n";
+		//std::cout << "Nodul:" << privRoot->data() << " caz radacina\n";
 		return;
 	}
 
@@ -84,31 +84,31 @@ void BicolorBST::privCheckRules(NodeRedBlack * n)
 	if (left->color() == NRB::red && right->color() == NRB::red)
 	{
 		privCaseOne(base, left, right);
-		std::cout << "Nodul:" << base->data() << " caz 1\n";
+		//std::cout << "Nodul:" << base->data() << " caz 1\n";
 	}
 	//Case two (the node is on the exterior - left side)
 	else if (base->left() == n->father() && left->left() == n)
 	{
 		base = privCaseTwo(base, left, right, false);
-		std::cout << "Nodul:" << base->data() << " caz 2\n";
+		//std::cout << "Nodul:" << base->data() << " caz 2\n";
 	}
 	//Case two (the node is on the exterior - right side)
 	else if (base->right() == n->father() && right->right() == n)
 	{
 		base = privCaseTwo(base, left, right, true);
-		std::cout << "Nodul:" << base->data() << " caz 2'\n";
+		//std::cout << "Nodul:" << base->data() << " caz 2'\n";
 	}
 	//Case three(the node is on the interior - left side
 	else if (base->left() == n->father() && left->right() == n)
 	{
 		base = privCaseThree(base, left, right, false);
-		std::cout << "Nodul:" << base->data() << " caz 3\n";
+		//std::cout << "Nodul:" << base->data() << " caz 3\n";
 
 	}//Case three(the node is on the interior - left side
 	else if (base->right() == n->father() && right->left() == n)
 	{
 		base = privCaseThree(base, left, right, true);
-		std::cout << "Nodul:" << base->data() << " caz 3'\n";
+		//std::cout << "Nodul:" << base->data() << " caz 3'\n";
 	}
 	else
 	{
@@ -223,6 +223,16 @@ int BicolorBST::privDepth(NodeRedBlack * n, int blackNr)
 	return privDepth((NodeRedBlack*)n->left(), nrb->color() == NRB::black ? blackNr + 1 : blackNr);
 }
 
+NodeRedBlack * BicolorBST::privCopy(NodeRedBlack * father,const NodeRedBlack * toCopy)
+{
+		if (toCopy == NULL)
+			return NULL;
+		NodeRedBlack *copyN = new NodeRedBlack(toCopy->color(),toCopy->data(), father);
+		copyN->left(privCopy(copyN,(NodeRedBlack *) toCopy->left()));
+		copyN->right(privCopy(copyN, (NodeRedBlack *)toCopy->right()));
+		return copyN;
+}
+
 void BicolorBST::protecPrintSRD(Node * n, std::ostream & os) const
 {
 	if (n == NULL)
@@ -240,6 +250,13 @@ BicolorBST::BicolorBST()
 BicolorBST::BicolorBST(NodeRedBlack * root)
 {
 	privRoot = root;
+}
+
+BicolorBST::BicolorBST(BicolorBST & bst)
+{
+	//Set root to null for operator=
+	privRoot = NULL;
+	*this = bst;
 }
 
 BicolorBST::~BicolorBST()
@@ -284,4 +301,21 @@ void BicolorBST::insert(int data)
 		privInsert(privRoot, data);
 
 	privNrNodes++;
+}
+
+BicolorBST & BicolorBST::operator=(const BicolorBST & bst)
+{
+	//If this tree has nodes delete them first
+	if (privRoot != NULL)
+		privEmpty(privRoot);
+	//Copy private variables
+	privNrNodes = bst.privNrNodes;
+	//Create the root
+	NodeRedBlack *newRoot = new NodeRedBlack(bst.privRoot->color(),bst.privRoot->data(), NULL);
+	//Set the root
+	privRoot = newRoot;
+	//Recursively copy each node and link them properly
+	privRoot->left(privCopy(privRoot, (NodeRedBlack*)bst.privRoot->left()));
+	privRoot->right(privCopy(privRoot, (NodeRedBlack*)bst.privRoot->right()));
+	return *this;
 }

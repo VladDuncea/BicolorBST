@@ -4,17 +4,33 @@
 
 int main()
 {
-	BST bst;
-	bst.insert(3);
-	bst.insert(4);
-	bst.insert(5);
-	bst.insert(1);
-	bst.insert(2);
-	bst.insert(7);
-	bst.insert(6);
-	bst.insert(8);
-	bst.inorder();
+	Tree * trees[2];
+	trees[0] = new BST;
+	trees[1] = new BicolorBST;
+	for (auto t : trees)
+	{
+		t->insert(3);
+		t->insert(4);
+		t->insert(5);
+		t->insert(1);
+		t->insert(2);
+		t->insert(7);
+		t->insert(6);
+		t->insert(8);
+		t->inorder();
+		std::cout <<"Adancime: "<< t->treeDepth() << std::endl;
+		
+	}
 
+	BicolorBST bst = *((BicolorBST*)trees[1]);
+	bst.inorder();
+	bst.insert(9);
+	bst.inorder();
+	bst = *((BicolorBST*)trees[1]);
+	bst.inorder();
+	
+	
+	/*
 	bst.removeNode(3);
 	bst.removeNode(5);
 	bst.removeNode(8);
@@ -23,11 +39,11 @@ int main()
 	bst.removeNode(2);
 	bst.removeNode(7);
 	bst.removeNode(4);
+	*/
 
+	//bst.inorder();
 
-	bst.inorder();
-
-	std::cout<<bst.treeDepth()<<std::endl;
+	
 	//bst.test();
 	//bst.inorder();
 

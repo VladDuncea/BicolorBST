@@ -14,6 +14,7 @@ NodeRedBlack::~NodeRedBlack()
 {
 }
 
+
 void NodeRedBlack::color(const NRB::Color &color)
 {
 	privColor = color;
@@ -31,8 +32,8 @@ NodeRedBlack& NodeRedBlack::operator=(const NodeRedBlack &n)
 	return *this;
 }
 
-std::ostream & operator<<(std::ostream & os, const NodeRedBlack &n)
+void NodeRedBlack::display(std::ostream & os) const
 {
-	os << n.data() << "-" << (n.color() == NRB::black ? "black" : "red") << " ";
-	return os;
+	os << data() << "-" << (color() == NRB::black ? "black" : "red") << " ";
 }
+

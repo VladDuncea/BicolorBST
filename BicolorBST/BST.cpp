@@ -123,6 +123,16 @@ void BST::privRemoveNode(Node * n, int x)
 		privRemoveNode(n->left(), x);
 }
 
+Node * BST::privCopy(Node * father,Node *toCopy)
+{
+	if (toCopy == NULL)
+		return NULL;
+	Node *copyN = new Node(toCopy->data(),father);
+	copyN->left(privCopy(copyN, toCopy->left()));
+	copyN->right(privCopy(copyN, toCopy->right()));
+	return copyN;
+}
+
 BST::BST()
 {
 	privRoot = NULL;
@@ -140,7 +150,9 @@ BST::BST(Node * root)
 
 BST::BST(BST & bst):Tree(bst)
 {
-	//TODO copy constructor
+	//Set root to null so operator= works as intended
+	privRoot = NULL;
+	*this = bst;
 }
 
 BST::~BST()
@@ -184,14 +196,19 @@ void BST::removeNode(int x)
 	privRemoveNode(privRoot, x);
 }
 
-BST & BST::operator=(BST & bst)
+BST & BST::operator=(const BST & bst)
 {
 	//If this tree has nodes delete them first
 	if (privRoot != NULL)
 		privEmpty(privRoot);
 	//Copy private variables
 	privNrNodes = bst.privNrNodes;
-	privRoot = bst.privRoot;
-	//TODO: Finish operator =
+	//Create the root
+	Node *newRoot = new Node(bst.privRoot->data(), NULL);
+	//Set the root
+	privRoot = newRoot;
+	//Recursively copy each node and link them properly
+	privRoot->left(privCopy(privRoot, bst.privRoot->left()));
+	privRoot->right(privCopy(privRoot, bst.privRoot->right()));
 	return *this;
 }

@@ -27,6 +27,5 @@ public:
 
 	//Operators
 	NodeRedBlack& operator=(const NodeRedBlack& n);
+	void display(std::ostream &os) const;
 };
-
-std::ostream& operator<<(std::ostream &os,const NodeRedBlack &n);

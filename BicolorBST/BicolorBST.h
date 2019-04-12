@@ -12,12 +12,14 @@ class BicolorBST: public Tree
 	NodeRedBlack * privCaseThree(NodeRedBlack *base, NodeRedBlack *left, NodeRedBlack *right,bool reversed);
 	void privEmpty(NodeRedBlack *n);
 	int privDepth(NodeRedBlack *n, int blackNr);
+	NodeRedBlack * privCopy(NodeRedBlack * father,const NodeRedBlack * toCopy);
 
 protected:
 	void protecPrintSRD(Node *n, std::ostream& os) const;
 public:
 	BicolorBST();
 	BicolorBST(NodeRedBlack *root);
+	BicolorBST(BicolorBST &bst);
 	~BicolorBST();
 
 	//Tree functions
@@ -27,5 +29,7 @@ public:
 	void insert(int data);
 	//TODO: create a remove node function
 	void removeNode(int) {};
+
+	BicolorBST & operator=(const BicolorBST& bst);
 };
 

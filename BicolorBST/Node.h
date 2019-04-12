@@ -32,6 +32,7 @@ public:
 	void right(Node *newRight);
 
 	Node&  operator=(const Node &n);
+	virtual void display(std::ostream &os) const;
 };
 
 std::ostream& operator<<(std::ostream &os,const Node &n);

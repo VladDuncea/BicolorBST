@@ -10,6 +10,7 @@ class BST :public Tree
 	void privEmpty(Node *n);
 	int privDepth(Node *n, int depth);
 	void privRemoveNode(Node *n, int x);
+	Node * privCopy(Node * father, Node *toCopy);
 
 public:
 	BST();
@@ -23,6 +24,6 @@ public:
 	void insert(int data);
 	void removeNode(int x);
 
-	BST & operator=(BST& bst);
+	BST & operator=(const BST& bst);
 };
 
