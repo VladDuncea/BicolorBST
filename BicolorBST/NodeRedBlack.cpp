@@ -34,6 +34,22 @@ NodeRedBlack& NodeRedBlack::operator=(const NodeRedBlack &n)
 
 void NodeRedBlack::display(std::ostream & os) const
 {
-	os << data() << "-" << (color() == NRB::black ? "black" : "red") << " ";
+	os << data() << "-";
+	switch (color())
+	{
+	case NRB::black:
+			std::cout << "black";
+			break;
+	case NRB::doubleBlack:
+		std::cout << "doubleBlack";
+		break;
+	case NRB::red:
+		std::cout << "red";
+		break;
+	default:
+		std::cout << "unknown color";
+		break;
+	}
+	std::cout << " ";
 }
 

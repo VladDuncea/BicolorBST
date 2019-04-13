@@ -93,11 +93,18 @@ void BST::privRemoveNode(Node * n, int x)
 
 			//The node has one child
 			Node *child = (n->left() == NULL) ? n->right() : n->left();
-			//Link the father of the node to the child
-			if (n->data() < n->father()->data())
-				n->father()->left(child);
+			//This is not the root
+			if (n->father() != NULL)
+			{
+				//Link the father of the node to the child
+				if (n->data() < n->father()->data())
+					n->father()->left(child);
+				else
+					n->father()->right(child);
+			}
+			//This is the root => update the root
 			else
-				n->father()->right(child );
+				privRoot = child;
 			//Link the child to the new father
 			child->father(n->father());
 			//Free memory

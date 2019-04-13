@@ -21,7 +21,7 @@ int main()
 		std::cout <<"Adancime: "<< t->treeDepth() << std::endl;
 		
 	}
-	auto t = trees[0];
+	for(auto t :trees)
 	{
 		
 		t->removeNode(4);
@@ -35,7 +35,6 @@ int main()
 		t->removeNode(1);
 		t->removeNode(2);
 		t->inorder();
-
 	}
 	
 	/*

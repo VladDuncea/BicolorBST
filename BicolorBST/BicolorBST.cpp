@@ -3,7 +3,7 @@
 void BicolorBST::privInsert(NodeRedBlack * n, int data)
 {
 	//Node is to the left
-	if (data <= n->data())
+	if (data < n->data())
 	{
 		//Found position
 		if (n->left() == NULL)
@@ -260,10 +260,10 @@ void BicolorBST::privRemoveNode(Node * n, int x)
 				if (((NodeRedBlack*)n)->color() == NRB::red)
 				{
 					//Break the node from its father
-					if (n->father()->data() < n->data())
-						n->father()->right(NULL);
-					else
+					if (n->data() < n->father()->data())
 						n->father()->left(NULL);
+					else
+						n->father()->right(NULL);
 					//Free the memory
 					delete n;
 				}
@@ -279,10 +279,18 @@ void BicolorBST::privRemoveNode(Node * n, int x)
 			//The node has one child
 			Node *child = (n->left() == NULL) ? n->right() : n->left();
 			//Link the father of the node to the child
-			if (n->data() < n->father()->data())
-				n->father()->left(child);
+			//This is not the root
+			if (n->father() != NULL)
+			{
+				//Link the father of the node to the child
+				if (n->data() < n->father()->data())
+					n->father()->left(child);
+				else
+					n->father()->right(child);
+			}
+			//This is the root => update the root
 			else
-				n->father()->right(child);
+				privRoot = (NodeRedBlack*)child;
 			//Link the child to the new father
 			child->father(n->father());
 			//Free memory
