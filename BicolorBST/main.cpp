@@ -21,14 +21,22 @@ int main()
 		std::cout <<"Adancime: "<< t->treeDepth() << std::endl;
 		
 	}
+	auto t = trees[0];
+	{
+		
+		t->removeNode(4);
+		t->inorder();
+		t->removeNode(5);
+		t->removeNode(7);
+		t->removeNode(6);
+		t->inorder();
+		t->removeNode(3);
+		t->removeNode(8);
+		t->removeNode(1);
+		t->removeNode(2);
+		t->inorder();
 
-	BicolorBST bst = *((BicolorBST*)trees[1]);
-	bst.inorder();
-	bst.insert(9);
-	bst.inorder();
-	bst = *((BicolorBST*)trees[1]);
-	bst.inorder();
-	
+	}
 	
 	/*
 	bst.removeNode(3);

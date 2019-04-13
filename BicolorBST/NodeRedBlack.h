@@ -6,7 +6,8 @@ namespace NRB
 	enum Color
 	{
 		red = 0,
-		black = 1
+		black = 1,
+		doubleBlack=2
 	};
 }
 

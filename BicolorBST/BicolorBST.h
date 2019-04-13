@@ -6,13 +6,21 @@ class BicolorBST: public Tree
 {
 	NodeRedBlack *privRoot;
 	void privInsert(NodeRedBlack *n, int data);
+	//Function to check insertion rules
 	void privCheckRules(NodeRedBlack *n);
+	//The cases for insertion
 	void privCaseOne(NodeRedBlack *base, NodeRedBlack *left, NodeRedBlack *right);
 	NodeRedBlack * privCaseTwo(NodeRedBlack *base, NodeRedBlack *left, NodeRedBlack *right,bool reversed);
 	NodeRedBlack * privCaseThree(NodeRedBlack *base, NodeRedBlack *left, NodeRedBlack *right,bool reversed);
-	void privEmpty(NodeRedBlack *n);
 	int privDepth(NodeRedBlack *n, int blackNr);
-	NodeRedBlack * privCopy(NodeRedBlack * father,const NodeRedBlack * toCopy);
+	NodeRedBlack * privCopy(NodeRedBlack * father, const NodeRedBlack * toCopy);
+	//Function to delete node with x value
+	void privRemoveNode(Node *n, int x);
+	//Function to resolve a double black node
+	void privDoubleBlack(NodeRedBlack *n);
+	//Function to dealocate all nodes
+	void privEmpty(NodeRedBlack *n);
+	
 
 protected:
 	void protecPrintSRD(Node *n, std::ostream& os) const;
@@ -28,7 +36,7 @@ public:
 	void test();
 	void insert(int data);
 	//TODO: create a remove node function
-	void removeNode(int) {};
+	void removeNode(int x);
 
 	BicolorBST & operator=(const BicolorBST& bst);
 };

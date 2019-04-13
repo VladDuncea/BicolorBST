@@ -3,7 +3,7 @@
 void BST::priv_insert(Node * father, int data)
 {
 	//The node belongs to the left
-	if (data <= father->data())
+	if (data < father->data())
 	{
 		//There is a left son
 		if (father->left() != NULL)
@@ -20,7 +20,7 @@ void BST::priv_insert(Node * father, int data)
 	}
 
 	//The node belongs to the right
-	if (data > father->data())
+	if (data >= father->data())
 	{	
 		//There is a right son
 		if (father->right() != NULL)
@@ -81,10 +81,11 @@ void BST::privRemoveNode(Node * n, int x)
 					return;
 				}
 				//Break the node from its father
-				if (n->father()->data() < n->data())
-					n->father()->right(NULL);
-				else
+				if (n->data() < n->father()->data())
 					n->father()->left(NULL);
+				else
+					n->father()->right(NULL);
+					
 				//Free the memory
 				delete n;
 				return;

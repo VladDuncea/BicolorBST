@@ -233,6 +233,93 @@ NodeRedBlack * BicolorBST::privCopy(NodeRedBlack * father,const NodeRedBlack * t
 		return copyN;
 }
 
+void BicolorBST::privRemoveNode(Node * n, int x)
+{
+	//The node with value x is not in the BST
+	if (n == NULL)
+		return;
+
+	//Found the node
+	if (n->data() == x)
+	{
+		//The node has at most one child
+		if (n->left() == NULL || n->right() == NULL)
+		{
+			//The node has no children
+			if (n->left() == NULL && n->right() == NULL)
+			{
+				//The node is the last one in the BST
+				if (n == privRoot)
+				{
+					privRoot = NULL;
+					delete n;
+					return;
+				}
+
+				//Check if the node is red
+				if (((NodeRedBlack*)n)->color() == NRB::red)
+				{
+					//Break the node from its father
+					if (n->father()->data() < n->data())
+						n->father()->right(NULL);
+					else
+						n->father()->left(NULL);
+					//Free the memory
+					delete n;
+				}
+				else
+				{
+					//A black node was deleted
+					((NodeRedBlack*)n)->color(NRB::doubleBlack);
+					privDoubleBlack((NodeRedBlack*)n);
+				}
+				return;
+			}
+
+			//The node has one child
+			Node *child = (n->left() == NULL) ? n->right() : n->left();
+			//Link the father of the node to the child
+			if (n->data() < n->father()->data())
+				n->father()->left(child);
+			else
+				n->father()->right(child);
+			//Link the child to the new father
+			child->father(n->father());
+			//Free memory
+			delete n;
+			if (((NodeRedBlack*)child)->color() == NRB::black)
+			{
+				((NodeRedBlack*)child)->color(NRB::doubleBlack);
+				privDoubleBlack((NodeRedBlack*)child);
+			}
+			return;
+		}
+
+		//The node has both children
+		//Find the minimal node greather than this
+		Node *aux = n->right();
+		while (aux->left() != NULL)
+			aux = aux->left();
+		//Set the found node in place of the removed one
+		n->data(aux->data());
+		//Remove the found node
+		privRemoveNode(aux, aux->data());
+		return;
+	}
+
+	//Search for the node
+	if (n->data() < x)
+		privRemoveNode(n->right(), x);
+	else
+		privRemoveNode(n->left(), x);
+}
+
+void BicolorBST::privDoubleBlack(NodeRedBlack * n)
+{
+	//TODO finish this:
+	std::cout << "Double black case"<<std::endl;
+}
+
 void BicolorBST::protecPrintSRD(Node * n, std::ostream & os) const
 {
 	if (n == NULL)
@@ -301,6 +388,11 @@ void BicolorBST::insert(int data)
 		privInsert(privRoot, data);
 
 	privNrNodes++;
+}
+
+void BicolorBST::removeNode(int x)
+{
+	privRemoveNode(privRoot, x);
 }
 
 BicolorBST & BicolorBST::operator=(const BicolorBST & bst)
