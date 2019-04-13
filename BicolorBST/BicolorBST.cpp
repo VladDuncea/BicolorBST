@@ -284,8 +284,6 @@ void BicolorBST::privRemoveNode(Node * n, int x)
 			{
 				if (child->color() == NRB::red)
 					child->color(NRB::black);
-				else
-					child->color(NRB::doubleBlack); //TODO this should not exist
 			}
 			//Link the father of the node to the child
 			//This is not the root
@@ -458,8 +456,8 @@ void BicolorBST::privDoubleBlack(NodeRedBlack * n)
 				//Relink left and right of old parent
 				parent->right(NULL);
 				parent->left(sRight);
-				if (sLeft != NULL)
-					sLeft->father(parent);
+				if (sRight != NULL)
+					sRight->father(parent);
 			}
 			else if (sRight != NULL && sRight->color() == NRB::red)
 			{
@@ -475,7 +473,7 @@ void BicolorBST::privDoubleBlack(NodeRedBlack * n)
 				sRight->father(parent->father());
 				sRight->right(parent);
 				parent->father(sRight);
-				sLeft->left(sibling);
+				sRight->left(sibling);
 				sibling->father(sRight);
 
 				//Empty parents children
