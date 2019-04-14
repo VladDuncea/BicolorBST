@@ -16,6 +16,9 @@ public:
 	//Setter for data variable
 	void data(int newData);
 
+	//Return true if on left of father
+	bool isOnLeft();
+
 	//Getter for father variable
 	Node* father() const;
 	//Setter for father variable

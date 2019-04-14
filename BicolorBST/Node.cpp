@@ -27,6 +27,17 @@ void Node::data(int newData)
 	privData = newData;
 }
 
+bool Node::isOnLeft()
+{
+	if (privFather)
+		return this == privFather->left();
+	else
+	{
+		std::cerr << "wrong asertion!Function 'isOnLeft' called on node with no father!"<<std::endl;
+		return true;
+	}
+} 
+
 Node * Node::father() const
 {
 	return privFather;

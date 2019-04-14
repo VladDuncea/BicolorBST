@@ -16,7 +16,7 @@ class BicolorBST: public Tree
 	NodeRedBlack * privCopy(NodeRedBlack * father, const NodeRedBlack * toCopy);
 	//Function to delete node with x value
 	void privRemoveNode(Node *n, int x);
-	//Function to resolve a double black node
+	//Functions to resolve a double black node
 	void privDoubleBlack(NodeRedBlack *n);
 	//Function to dealocate all nodes
 	void privEmpty(NodeRedBlack *n);

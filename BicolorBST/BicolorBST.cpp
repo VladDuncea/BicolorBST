@@ -348,7 +348,7 @@ void BicolorBST::privDoubleBlack(NodeRedBlack * n)
 	parent = (NodeRedBlack*)n->father();
 
 	//Get the sibling
-	if (parent->left() == n)
+	if (n->isOnLeft())
 	{
 		sibling = (NodeRedBlack*)parent->right();
 	}
@@ -372,7 +372,7 @@ void BicolorBST::privDoubleBlack(NodeRedBlack * n)
 	if (sibling->color() == NRB::black)
 	{
 		//We are on the left
-		if (parent->left() == n)
+		if (n->isOnLeft())
 		{
 			//The sibling is on the right has at least one red child
 			if (sRight != NULL && sRight->color() == NRB::red)
@@ -541,7 +541,7 @@ void BicolorBST::privDoubleBlack(NodeRedBlack * n)
 	{
 		//The sibling is red
 		//n is on the left
-		if (parent->left() == n)
+		if (n->isOnLeft())
 		{
 			//Change the colors
 			sibling->color(NRB::black);
