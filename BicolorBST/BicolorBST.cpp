@@ -309,7 +309,7 @@ void BicolorBST::privRemoveNode(Node * n, int x)
 			delete n;
 
 			//Check for double black
-			privDoubleBlack(child);
+			//privDoubleBlack(child);
 			
 			return;
 		}
@@ -374,21 +374,30 @@ void BicolorBST::privDoubleBlack(NodeRedBlack * n)
 		//We are on the left
 		if (parent->left() == n)
 		{
-			//The sibling is on the left has at least one red child
+			//The sibling is on the right has at least one red child
 			if (sRight != NULL && sRight->color() == NRB::red)
 			{
 				//Put the sibling as this subtrees father
-				if (parent->father()->left() == parent)
-					parent->father()->left(sibling);
+				//Link higher up
+				if (parent->father() != NULL)
+				{
+					if (parent->father()->left() == parent)
+						parent->father()->left(sibling);
+					else
+						parent->father()->right(sibling);
+				}
 				else
-					parent->father()->right(sibling);
-
+					privRoot = sibling;
 				sibling->father(parent->father());
 				sibling->left(parent);
 				parent->father(sibling);
 
 				//Make siblings right child black
 				sRight->color(NRB::black);
+
+				//Get colors right
+				sibling->color(parent->color());
+				parent->color(NRB::black);
 
 				//Relink left and right of old parent
 				parent->left(NULL);
@@ -399,14 +408,22 @@ void BicolorBST::privDoubleBlack(NodeRedBlack * n)
 			else if (sLeft != NULL && sLeft->color() == NRB::red)
 			{
 				//Make siblings left child black
-				sLeft->color(NRB::black);
+				sLeft->color(parent->color());
+
+				//Make parent black
+				parent->color(NRB::black);
 
 				//Make sLeft the new parent of this subtree
-				if (parent->father()->left() == parent)
-					parent->father()->left(sLeft);
+				//Link higher up
+				if (parent->father() != NULL)
+				{
+					if (parent->father()->left() == parent)
+						parent->father()->left(sLeft);
+					else
+						parent->father()->right(sLeft);
+				}
 				else
-					parent->father()->right(sLeft);
-
+					privRoot = sLeft;
 				sLeft->father(parent->father());
 				sLeft->left(parent);
 				parent->father(sLeft);
@@ -425,6 +442,7 @@ void BicolorBST::privDoubleBlack(NodeRedBlack * n)
 				//The case where the sibling has no red children
 				//Make the sibling red
 				sibling->color(NRB::red);
+				parent->left(NULL);
 				//Color the parent of subtree black/doubleblack
 				if (parent->color() == NRB::black)
 				{
@@ -441,10 +459,16 @@ void BicolorBST::privDoubleBlack(NodeRedBlack * n)
 			if (sLeft != NULL && sLeft->color() == NRB::red)
 			{
 				//Put the sibling as this subtrees father
-				if (parent->father()->left() == parent)
-					parent->father()->left(sibling);
+				//Link higher up
+				if (parent->father() != NULL)
+				{
+					if (parent->father()->left() == parent)
+						parent->father()->left(sibling);
+					else
+						parent->father()->right(sibling);
+				}
 				else
-					parent->father()->right(sibling);
+					privRoot = sibling;
 
 				sibling->father(parent->father());
 				sibling->right(parent);
@@ -452,6 +476,10 @@ void BicolorBST::privDoubleBlack(NodeRedBlack * n)
 
 				//Make siblings left child black
 				sLeft->color(NRB::black);
+
+				//Get colors right
+				sibling->color(parent->color());
+				parent->color(NRB::black);
 
 				//Relink left and right of old parent
 				parent->right(NULL);
@@ -461,14 +489,23 @@ void BicolorBST::privDoubleBlack(NodeRedBlack * n)
 			}
 			else if (sRight != NULL && sRight->color() == NRB::red)
 			{
-				//Make siblings left child black
-				sRight->color(NRB::black);
+				//Make siblings right child parents color
+				sRight->color(parent->color());
+
+				//Make the parent black
+				parent->color(NRB::black);
 
 				//Make sLeft the new parent of this subtree
-				if (parent->father()->left() == parent)
-					parent->father()->left(sLeft);
+				//Link higher up
+				if (parent->father() != NULL)
+				{
+					if (parent->father()->left() == parent)
+						parent->father()->left(sLeft);
+					else
+						parent->father()->right(sLeft);
+				}
 				else
-					parent->father()->right(sLeft);
+					privRoot = sLeft;
 
 				sRight->father(parent->father());
 				sRight->right(parent);
@@ -488,6 +525,7 @@ void BicolorBST::privDoubleBlack(NodeRedBlack * n)
 				//The case where the sibling has no red children
 				//Make the sibling red
 				sibling->color(NRB::red);
+				parent->right(NULL);
 				//Color the parent of subtree black/doubleblack
 				if (parent->color() == NRB::black)
 				{
@@ -510,10 +548,16 @@ void BicolorBST::privDoubleBlack(NodeRedBlack * n)
 			sLeft->color(NRB::red);
 
 			//Place sibling as new parent of subtree
-			if (parent->father()->left() == parent)
-				parent->father()->left(sibling);
+			//Link higher up
+			if (parent->father() != NULL)
+			{
+				if (parent->father()->left() == parent)
+					parent->father()->left(sibling);
+				else
+					parent->father()->right(sibling);
+			}
 			else
-				parent->father()->right(sibling);
+				privRoot = sibling;
 
 			sibling->father(parent->father());
 			sibling->left(parent);
@@ -533,10 +577,16 @@ void BicolorBST::privDoubleBlack(NodeRedBlack * n)
 			sRight->color(NRB::red);
 
 			//Place sibling as new parent of subtree
-			if (parent->father()->left() == parent)
-				parent->father()->left(sibling);
+			//Link higher up
+			if (parent->father() != NULL)
+			{
+				if (parent->father()->left() == parent)
+					parent->father()->left(sibling);
+				else
+					parent->father()->right(sibling);
+			}
 			else
-				parent->father()->right(sibling);
+				privRoot = sibling;
 
 			sibling->father(parent->father());
 			sibling->right(parent);
@@ -592,8 +642,10 @@ void BicolorBST::inorder() const
 {
 	if (privRoot)
 		protecPrintSRD(privRoot, std::cout);
-	std::cout << std::endl;
-}
+	else
+		std::cout << "The tree is empty";
+	std::cout << "\n";
+}	
 
 void BicolorBST::test()
 {
@@ -624,6 +676,8 @@ void BicolorBST::insert(int data)
 
 void BicolorBST::removeNode(int x)
 {
+	if (privRoot == NULL)
+		std::cout << "Tree is already empty" << std::endl;
 	privRemoveNode(privRoot, x);
 }
 
