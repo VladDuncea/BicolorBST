@@ -18,6 +18,8 @@ class BicolorBST: public Tree
 	void privRemoveNode(Node *n, int x);
 	//Functions to resolve a double black node
 	void privDoubleBlack(NodeRedBlack *n);
+	void privLeftRotate(NodeRedBlack *n);
+	void privRightRotate(NodeRedBlack *n);
 	//Function to dealocate all nodes
 	void privEmpty(NodeRedBlack *n);
 	
